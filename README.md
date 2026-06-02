@@ -13,17 +13,22 @@ Copy the corresponding prompt below as a **single line** and paste it directly i
 > Hey Antigravity, please install this 'antigravity-pdf-editor' MCP extension automatically: 1) Check if the directory 'antigravity-pdf-editor' exists in my current workspace, and if not, clone the repository 'https://github.com/Joweb1/antigravity-pdf-editor.git' into my workspace. 2) Navigate to 'antigravity-pdf-editor/mcp-server' and run 'npm install' (use bypassed execution policy if on Windows powershell). 3) Locate my global config file (usually at '~/.antigravitycli/config.json' or in my workspace config), read the JSON, and insert the entry '"korlyn-pdf": {"command": "node", "args": ["<absolute-path-to-cloned-folder>/mcp-server/index.js"]}' under 'mcpServers' (replacing '<absolute-path-to-cloned-folder>' with the actual absolute path of the folder). 4) Save the config and advise me to restart this session.
 > ```
 
-### 2. For Claude Desktop Users
+### 2. For Gemini-Powered Agents (Gemini CLI / Developer Tools / Aider)
 > ```text
-> Hey Claude, please install this 'antigravity-pdf-editor' MCP extension locally: 1) Verify if 'antigravity-pdf-editor' exists in my current directory, and if not, clone 'https://github.com/Joweb1/antigravity-pdf-editor.git'. 2) Navigate to 'antigravity-pdf-editor/mcp-server' and run 'npm install'. 3) Open my Claude Desktop config file (located at '%APPDATA%\Claude\claude_desktop_config.json' on Windows or '~/Library/Application Support/Claude/claude_desktop_config.json' on macOS). 4) Add the entry '"korlyn-pdf": {"command": "node", "args": ["<absolute-path-to-folder>/mcp-server/index.js"]}' under 'mcpServers' (replacing '<absolute-path-to-folder>' with the absolute path of the repository). 5) Save the configuration and tell me how to restart Claude Desktop to load the tools.
+> Hey Gemini, please install this 'antigravity-pdf-editor' MCP server extension locally: 1) Verify if 'antigravity-pdf-editor' exists in my current directory, and if not, clone the repository 'https://github.com/Joweb1/antigravity-pdf-editor.git'. 2) Navigate to 'antigravity-pdf-editor/mcp-server' and run 'npm install'. 3) Help me register the MCP server command in my local environment configuration (or Aider config) using command 'node' and args pointing to the absolute path of 'mcp-server/index.js'. 4) Provide me with instructions on how to use the new tools to generate layout schemas on demand.
 > ```
 
-### 3. For Roo Code (VS Code Extension) Users
+### 3. For Claude Desktop Users
+> ```text
+> Hey Claude, please install the 'antigravity-pdf-editor' MCP server extension locally: 1) Verify if 'antigravity-pdf-editor' exists in my current directory, and if not, clone 'https://github.com/Joweb1/antigravity-pdf-editor.git'. 2) Navigate to 'antigravity-pdf-editor/mcp-server' and run 'npm install'. 3) Open my Claude Desktop config file (located at '%APPDATA%\Claude\claude_desktop_config.json' on Windows or '~/Library/Application Support/Claude/claude_desktop_config.json' on macOS). 4) Add the entry '"korlyn-pdf": {"command": "node", "args": ["<absolute-path-to-folder>/mcp-server/index.js"]}' under 'mcpServers' (replacing '<absolute-path-to-folder>' with the absolute path of the repository). 5) Save the configuration and tell me how to restart Claude Desktop to load the tools.
+> ```
+
+### 4. For Roo Code (VS Code Extension) Users
 > ```text
 > Hey Roo, please set up this 'antigravity-pdf-editor' MCP extension: 1) Clone 'https://github.com/Joweb1/antigravity-pdf-editor.git' to my workspace if not present. 2) Navigate to 'antigravity-pdf-editor/mcp-server' and run 'npm install'. 3) Open my Roo Code MCP settings file (located at '%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json' on Windows or corresponding VS Code folder on macOS/Linux). 4) Add the configuration '"korlyn-pdf": {"command": "node", "args": ["<absolute-path-to-folder>/mcp-server/index.js"], "disabled": false, "alwaysAllow": []}' under 'mcpServers' (replacing '<absolute-path-to-folder>' with the absolute path). 5) Save and verify.
 > ```
 
-### 4. For Cursor Users / General AI Assistants
+### 5. For Cursor Users / General AI Assistants
 > ```text
 > Hey Cursor, please set up 'antigravity-pdf-editor' as an MCP tool: 1) Clone 'https://github.com/Joweb1/antigravity-pdf-editor.git' to my workspace if missing. 2) Navigate to 'antigravity-pdf-editor/mcp-server' and run 'npm install'. 3) Locate the absolute path to 'antigravity-pdf-editor/mcp-server/index.js'. 4) Provide me with clear step-by-step instructions on how to add this path in my Cursor settings panel (Cursor Settings > Features > MCP) using 'command' as 'node' and 'args' pointing to the absolute index.js script path. 5) Create a test document JSON in the workspace to verify everything is ready.
 > ```
