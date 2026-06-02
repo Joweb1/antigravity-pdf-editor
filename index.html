@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korlyn PDF - Interactive Live PDF Creator & Editor</title>
+  <!-- Google Fonts: Inter and Playfair Display for a premium feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <!-- Vanilla CSS stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- PDF-lib locally stored for offline creation -->
+  <script src="pdf-lib.min.js"></script>
+</head>
+<body>
+  <!-- App Container -->
+  <div id="app" class="app-container">
+    
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <div class="logo-icon">K</div>
+        <h1>Korlyn <span>PDF</span></h1>
+      </div>
+      <div class="header-actions">
+        <div class="template-selector-container">
+          <label for="template-select" class="sr-only">Choose Template</label>
+          <select id="template-select" class="control-select">
+            <option value="blank">Blank Document</option>
+            <option value="invoice">Premium Invoice</option>
+            <option value="resume">Professional Resume</option>
+            <option value="letter">Official Letter</option>
+          </select>
+        </div>
+        <button id="btn-clear" class="btn btn-secondary" title="Clear all elements">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Reset
+        </button>
+        <button id="btn-toggle-preview" class="btn btn-secondary active" title="Toggle Side-by-Side Live PDF Preview">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Live PDF Preview
+        </button>
+        <button id="btn-download" class="btn btn-primary" title="Compile and download PDF">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Export PDF
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Area -->
+    <main class="app-workspace">
+      
+      <!-- Toolbar (Left Sidebar) -->
+      <aside class="sidebar-left">
+        <div class="toolbar-section">
+          <h3>Add Elements</h3>
+          <div class="tool-grid">
+            <button id="tool-text" class="tool-btn" title="Add Text Block">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Text</span>
+            </button>
+            <button id="tool-rect" class="tool-btn" title="Add Rectangle">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Rectangle</span>
+            </button>
+            <button id="tool-circle" class="tool-btn" title="Add Circle">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Circle</span>
+            </button>
+            <button id="tool-image" class="tool-btn" title="Add Image (JPG/PNG)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Image</span>
+            </button>
+            <button id="tool-signature" class="tool-btn" title="Draw Signature">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Signature</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar-section pages-controls">
+          <h3>Pages</h3>
+          <div class="pages-buttons">
+            <button id="btn-add-page" class="btn btn-secondary btn-full">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Page
+            </button>
+          </div>
+          <div id="pages-list" class="pages-list">
+            <!-- Dynamically populated page list -->
+          </div>
+        </div>
+
+        <div class="toolbar-section json-controls">
+          <h3>JSON Schema</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button id="btn-import-json" class="btn btn-secondary btn-full" title="Paste JSON schema to load">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Import JSON
+            </button>
+            <button id="btn-export-json" class="btn btn-secondary btn-full" title="Copy current schema to clipboard">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Export JSON
+            </button>
+          </div>
+        </div>
+
+        <!-- System Status/Logs -->
+        <div class="toolbar-section status-logs">
+          <div class="status-indicator">
+            <span class="status-dot green"></span>
+            <span id="status-text">System Ready</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Editor Board (Center Area) -->
+      <section class="editor-viewport">
+        <div class="zoom-controls">
+          <button id="btn-zoom-out" class="zoom-btn" title="Zoom Out">-</button>
+          <span id="zoom-level">100%</span>
+          <button id="btn-zoom-in" class="zoom-btn" title="Zoom In">+</button>
+        </div>
+
+        <div id="canvas-container" class="canvas-container">
+          <!-- Page visual elements go here -->
+        </div>
+      </section>
+
+      <!-- Preview & Properties Column (Right Side Panel) -->
+      <section class="sidebar-right">
+        
+        <!-- Live PDF Rendering (updates debounced) -->
+        <div class="preview-panel" id="preview-panel">
+          <div class="panel-header">
+            <h3>Live PDF Output</h3>
+            <span class="badge">A4 Standard</span>
+          </div>
+          <div class="pdf-frame-container">
+            <div id="pdf-loading" class="pdf-loading">
+              <div class="spinner"></div>
+              <p>Compiling PDF...</p>
+            </div>
+            <iframe id="pdf-preview-frame" title="PDF Preview Frame" src="about:blank"></iframe>
+          </div>
+        </div>
+
+        <!-- Property Editor Section (Toggled based on element selection) -->
+        <div class="properties-panel">
+          <div class="panel-header">
+            <h3>Properties</h3>
+          </div>
+          
+          <div id="properties-empty" class="properties-empty">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239a9 9 0 0112.573 12.573M5.12 5.12a9 9 0 0012.573 12.573m-1.29-12.573L3.83 17.74" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>Select an element on the canvas to configure properties.</p>
+          </div>
+
+          <!-- Text Properties -->
+          <div id="prop-text-group" class="properties-group hidden">
+            <div class="form-row">
+              <label for="prop-text-content">Text Content</label>
+              <textarea id="prop-text-content" rows="3" placeholder="Enter text..."></textarea>
+            </div>
+            <div class="form-row split">
+              <div>
+                <label for="prop-text-font">Font</label>
+                <select id="prop-text-font" class="control-select">
+                  <option value="Helvetica">Helvetica (Standard)</option>
+                  <option value="Helvetica-Bold">Helvetica Bold</option>
+                  <option value="Times-Roman">Times New Roman</option>
+                  <option value="Times-Bold">Times Bold</option>
+                  <option value="Courier">Courier (Monospace)</option>
+                  <option value="Courier-Bold">Courier Bold</option>
+                </select>
+              </div>
+              <div>
+                <label for="prop-text-size">Size (pt)</label>
+                <input type="number" id="prop-text-size" min="6" max="72" value="12">
+              </div>
+            </div>
+            <div class="form-row split">
+              <div>
+                <label for="prop-text-color">Color</label>
+                <div class="color-picker-wrapper">
+                  <input type="color" id="prop-text-color" value="#000000">
+                  <span id="text-color-hex" class="color-hex">#000000</span>
+                </div>
+              </div>
+              <div>
+                <label for="prop-text-align">Alignment</label>
+                <select id="prop-text-align" class="control-select">
+                  <option value="left">Left</option>
+                  <option value="center">Center</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shape Properties (Rectangle & Circle) -->
+          <div id="prop-shape-group" class="properties-group hidden">
+            <div class="form-row split">
+              <div>
+                <label for="prop-shape-fill">Fill Color</label>
+                <div class="color-picker-wrapper">
+                  <input type="color" id="prop-shape-fill" value="#e2e8f0">
+                  <span id="shape-fill-hex" class="color-hex">#E2E8F0</span>
+                </div>
+              </div>
+              <div>
+                <label for="prop-shape-fill-transparent">No Fill</label>
+                <div class="checkbox-container">
+                  <input type="checkbox" id="prop-shape-fill-transparent">
+                  <span>Transparent</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-row split">
+              <div>
+                <label for="prop-shape-stroke">Border Color</label>
+                <div class="color-picker-wrapper">
+                  <input type="color" id="prop-shape-stroke" value="#4f46e5">
+                  <span id="shape-stroke-hex" class="color-hex">#4F46E5</span>
+                </div>
+              </div>
+              <div>
+                <label for="prop-shape-stroke-width">Border (px)</label>
+                <input type="number" id="prop-shape-stroke-width" min="0" max="20" value="2">
+              </div>
+            </div>
+          </div>
+
+          <!-- Image & Signature Properties -->
+          <div id="prop-image-group" class="properties-group hidden">
+            <div id="image-upload-row" class="form-row">
+              <label for="prop-image-file">Image Upload</label>
+              <div class="file-drop-area">
+                <span class="file-msg">Choose a file or drag here</span>
+                <input type="file" id="prop-image-file" accept="image/png, image/jpeg" class="file-input">
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="prop-image-opacity">Opacity</label>
+              <div class="range-slider">
+                <input type="range" id="prop-image-opacity" min="0" max="100" value="100">
+                <span id="opacity-val">100%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Common Layout Settings for selected element -->
+          <div id="prop-common-group" class="properties-group hidden border-top">
+            <div class="form-row split">
+              <div>
+                <label for="prop-pos-x">X Position</label>
+                <input type="number" id="prop-pos-x" value="0">
+              </div>
+              <div>
+                <label for="prop-pos-y">Y Position</label>
+                <input type="number" id="prop-pos-y" value="0">
+              </div>
+            </div>
+            <div class="form-row split">
+              <div>
+                <label for="prop-size-w">Width</label>
+                <input type="number" id="prop-size-w" value="100">
+              </div>
+              <div>
+                <label for="prop-size-h">Height</label>
+                <input type="number" id="prop-size-h" value="100">
+              </div>
+            </div>
+            <div class="form-row">
+              <button id="btn-delete-element" class="btn btn-danger btn-full">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Delete Selected
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Interactive Signature Pad Modal -->
+  <div id="signature-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Draw Your Signature</h2>
+        <button id="btn-close-sig" class="btn-close" aria-label="Close Signature Modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Use your mouse or touch screen to draw your signature inside the area below:</p>
+        <div class="sig-pad-container">
+          <canvas id="signature-canvas" width="450" height="200"></canvas>
+        </div>
+        <div class="sig-controls">
+          <div class="sig-colors">
+            <button class="color-dot active" data-color="#000000" style="background-color: #000000;" title="Black"></button>
+            <button class="color-dot" data-color="#0000ff" style="background-color: #0000ff;" title="Blue"></button>
+            <button class="color-dot" data-color="#ff0000" style="background-color: #ff0000;" title="Red"></button>
+          </div>
+          <div class="sig-actions">
+            <button id="btn-clear-sig" class="btn btn-secondary">Clear</button>
+            <button id="btn-save-sig" class="btn btn-primary">Insert Signature</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
